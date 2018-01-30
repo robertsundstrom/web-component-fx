@@ -1,4 +1,4 @@
-import { defineHTMLElement } from "./Framework";
+import * as fx from "./Framework";
 import MyCounter from "./my-counter";
 
-const elem = defineHTMLElement(MyCounter);
+fx.defineComponent(MyCounter);

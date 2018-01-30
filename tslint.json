@@ -5,7 +5,8 @@
     ],
     "jsRules": {},
     "rules": {
-        "prefer-const": true
+        "prefer-const": true,
+        "interface-name": false
     },
     "rulesDirectory": []
 }
