@@ -18,10 +18,6 @@ export default class MyCounter {
         this.count++;
     }
 
-    public render() {
-        return <div>{this.count}</div>;
-    }
-
     private onMounted() {
         console.log("Mounted");
         console.log(this);

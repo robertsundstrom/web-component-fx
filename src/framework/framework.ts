@@ -25,6 +25,7 @@ function defineCustomElement(elementName: string, viewModel: any) {
     constructor() {
       super();
       viewModel.element = this;
+      this.model = viewModel;
     }
 
     private async connectedCallback() {
@@ -54,6 +55,7 @@ function defineCustomElement(elementName: string, viewModel: any) {
   };
 
   defineProperties(Element, viewModel);
+  setObservableAttributes(Element, getConstructor(viewModel));
 
   customElements.define(elementName, Element);
   return Element;
@@ -144,18 +146,20 @@ async function renderView(element: HTMLElement, viewModel: any, subscriptions: a
   if (render) {
     render = render.bind(viewModel);
     let tree: any = null!;
-    let rootNode: any = null!;
+    let rootNode: HTMLElement = null!;
     DependencyTracker.begin((s) => {
       const subscription = s.subscribe(async () => {
         const newTree = await render();
         const patches = diff(tree, newTree);
-        rootNode = patch(rootNode, patches);
+        rootNode = patch(rootNode, patches) as HTMLElement;
+        // const x = rootNode.querySelectorAll;("*count)^=""]");
+        // console.log(x);
         tree = rootNode;
       });
       subscriptions.push(subscription);
     });
     tree = await render();
-    rootNode = createElement(tree);
+    rootNode = createElement(tree) as HTMLElement;
     DependencyTracker.end();
     const shadowRoot = element.attachShadow({ mode: "open" });
     shadowRoot.appendChild(rootNode);
